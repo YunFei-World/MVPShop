@@ -4,6 +4,15 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.mvp.mvpshop.bean.BaseBean;
+import com.mvp.mvpshop.bean.Goods;
+import com.mvp.mvpshop.network.RetrofitClient;
+import com.mvp.mvpshop.network.service.GoodsService;
+
+import java.util.List;
+
+import io.reactivex.rxjava3.functions.Consumer;
+
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -12,6 +21,16 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+
+
+        GoodsService goodsService = RetrofitClient.getInstance().getService(GoodsService.class);
+        goodsService.getGoods().subscribe(new Consumer<BaseBean<List<Goods>>>() {
+            @Override
+            public void accept(BaseBean<List<Goods>> listBaseBean) throws Throwable {
+                System.out.println("请求结果："+listBaseBean);
+            }
+        });
+
+        while(true){}
     }
 }
